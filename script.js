@@ -12,13 +12,13 @@ const weatherForcast = document.querySelector(".weatherForcast");
 const weatherForcastToday = document.querySelector(".weatherForcast__today");
 
 const weekDays = [
+  "Sunday",
   "Monday",
   "Tuesday",
   "Wednesday",
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday",
 ];
 
 const months = [
@@ -38,16 +38,17 @@ const months = [
 
 setInterval(() => {
   const todayDate = new Date();
+  const todaysDate = todayDate.getDate();
   const day = todayDate.getDay();
   const weekDay = weekDays[day];
-  const month = months[todayDate.getMonth() + 1];
+  const month = months[todayDate.getMonth()];
   const year = todayDate.getFullYear();
 
   const hours = todayDate.getHours();
   const mins = todayDate.getMinutes().toString().padStart(2, 0);
   const secs = todayDate.getSeconds().toString().padStart(2, 0);
 
-  date.innerHTML = `${weekDay}, ${month} ${day} ${year}`;
+  date.innerHTML = `${weekDay}, ${month} ${todaysDate} ${year}`;
   time.innerHTML = `${hours}:${mins}:${secs}`;
 }, 1000);
 
