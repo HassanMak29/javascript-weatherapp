@@ -198,7 +198,7 @@ const getMap = (lat, lon) => {
   return map;
 };
 
-async function forcast(city, timeOfDay = "morning") {
+async function forcast(city = "algiers", timeOfDay = "morning") {
   const data = await geoCoding(city);
 
   loc.innerHTML = `${data[0].name}, ${data[0].country}`;
@@ -298,5 +298,6 @@ submitBtn.addEventListener("click", async function (e) {
 });
 
 select.addEventListener("change", async function (e) {
-  forcast(inputValue.value, e.target.value);
+  selectValue = e.target.value === "select" ? "morning" : e.target.value;
+  forcast(inputValue.value || "algiers", selectValue);
 });
