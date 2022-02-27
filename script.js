@@ -55,8 +55,12 @@ setInterval(() => {
 
 // A helper function that fetches and return data from an api
 const getData = async (url) => {
-  const res = await fetch(url);
-  const data = await res.json();
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+  } catch (err) {
+    console.log(err);
+  }
 
   return data;
 };
