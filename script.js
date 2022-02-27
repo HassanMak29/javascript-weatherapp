@@ -58,11 +58,10 @@ const getData = async (url) => {
   try {
     const res = await fetch(url);
     const data = await res.json();
+    return data;
   } catch (err) {
     console.log(err);
   }
-
-  return data;
 };
 
 // A function that takes a city and returns the corrdinatres of that city (longitude and latitude)
