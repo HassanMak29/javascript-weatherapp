@@ -197,7 +197,7 @@ const getIcon = (main, desc, dayTime) => {
 
 // A function to get the map from leaflet
 const getMap = (lat, lon) => {
-  // This portion of code is to see if the map already exists so that is remove it before we update the map with another location
+  // This portion of code is to see if the map already exists so we remove it before we update the map with another location
   const container = L.DomUtil.get("map");
   if (container != null) {
     container._leaflet_id = null;
