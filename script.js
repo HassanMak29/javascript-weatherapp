@@ -36,7 +36,7 @@ const months = [
   "Dec",
 ];
 
-// Get and display the date and time every sencond
+// Get and display the date and time every second
 setInterval(() => {
   const todayDate = new Date();
   const todaysDate = todayDate.getDate();
@@ -53,7 +53,7 @@ setInterval(() => {
   time.innerHTML = `${hours}:${mins}:${secs}`;
 }, 1000);
 
-// A helper function that fetches and return data from an api
+// A helper function that fetches and returns data from an api
 const getData = async (url) => {
   try {
     const res = await fetch(url);
@@ -65,13 +65,14 @@ const getData = async (url) => {
   }
 };
 
-// A function that takes a city and returns the corrdinatres of that city (longitude and latitude)
+// A function that takes a city and returns the coordinates of that city (longitude and latitude)
 const geoCoding = (cityName) => {
   const geocodingUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=44eeb0863b7b878491c01518d820a7af`;
   return getData(geocodingUrl);
 };
 
 // A function that takes the corrdinates of a city and returns the city's weather forcast for the next 5 days
+// at different times of the day
 const weatherFromLocation = (lat, lon) => {
   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=44eeb0863b7b878491c01518d820a7af`;
   return getData(url);
@@ -110,8 +111,8 @@ const getDayTime = (time) => {
 };
 
 // A function that takes the weather data from the 5 days forcast api as well as the time and
-// returns an array of weather data for the next 5 days in the specified time
-// If today's weather (in the specified time) is included in the api we append it to list of data.
+// returns an array of weather data for the next 5 days at the specified time
+// If today's weather (at the specified time) is included in the api we append it to the list of data.
 const dataToDisplay = (weatherData, time) => {
   let todaysWeather;
   let allDaysWeather;
@@ -197,7 +198,7 @@ const getIcon = (main, desc, dayTime) => {
 
 // A function to get the map from leaflet
 const getMap = (lat, lon) => {
-  // This portion of code is to see if the map already exists so we remove it before we update the map with another location
+  // This portion of code is to see if the map already exists so we can remove it before we update the map with another location
   const container = L.DomUtil.get("map");
   if (container != null) {
     container._leaflet_id = null;
@@ -215,7 +216,7 @@ const getMap = (lat, lon) => {
   return map;
 };
 
-// The main function: it takes the city and time of day and displays the data and the map in the UI
+// This function takes the city and time of day and displays the data and the map in the UI
 async function forcast(city = "algiers", timeOfDay = "morning") {
   const data = await geoCoding(city);
 
