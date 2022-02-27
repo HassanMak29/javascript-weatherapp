@@ -36,6 +36,7 @@ const months = [
   "Dec",
 ];
 
+// Get and display the date and time every sencond
 setInterval(() => {
   const todayDate = new Date();
   const todaysDate = todayDate.getDate();
@@ -52,6 +53,7 @@ setInterval(() => {
   time.innerHTML = `${hours}:${mins}:${secs}`;
 }, 1000);
 
+// A helper function that fetches and return data from an api
 const getData = async (url) => {
   const res = await fetch(url);
   const data = await res.json();
@@ -59,21 +61,25 @@ const getData = async (url) => {
   return data;
 };
 
+// A function that takes a city and returns the corrdinatres of that city (longitude and latitude)
 const geoCoding = (cityName) => {
   const geocodingUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=44eeb0863b7b878491c01518d820a7af`;
   return getData(geocodingUrl);
 };
 
+// A function that takes the corrdinates of a city and returns the city's weather forcast for the next 5 days
 const weatherFromLocation = (lat, lon) => {
   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=44eeb0863b7b878491c01518d820a7af`;
   return getData(url);
 };
 
+// A function that takes the corrdinates of a city and returns the current day's weather
 const todayWeather = (lat, lon) => {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=44eeb0863b7b878491c01518d820a7af`;
   return getData(url);
 };
 
+//  A function that takes the time of day from a select element in the DOM and returns the corresponding time
 const getTime = (timeOfDay) => {
   let time;
   if (timeOfDay === "midnight") time = "00:00:00";
@@ -87,6 +93,7 @@ const getTime = (timeOfDay) => {
   return time;
 };
 
+// A function that takes the time and returns either "day" or "night"
 const getDayTime = (time) => {
   let dayTime;
   if (time === "00:00:00" || time === "03:00:00" || time === "21:00:00") {
@@ -98,6 +105,9 @@ const getDayTime = (time) => {
   return dayTime;
 };
 
+// A function that takes the weather data from the 5 days forcast api as well as the time and
+// returns an array of weather data for the next 5 days in the specified time
+// If today's weather (in the specified time) is included in the api we append it to list of data.
 const dataToDisplay = (weatherData, time) => {
   let todaysWeather;
   let allDaysWeather;
@@ -119,6 +129,7 @@ const dataToDisplay = (weatherData, time) => {
   return allDaysWeather;
 };
 
+// A function that takes the weather description and returns the right icon to display
 const getIcon = (main, desc, dayTime) => {
   switch (main) {
     case "Thunderstorm":
@@ -180,8 +191,10 @@ const getIcon = (main, desc, dayTime) => {
   }
 };
 
+// A function to get the map from leaflet
 const getMap = (lat, lon) => {
-  var container = L.DomUtil.get("map");
+  // This portion of code is to see if the map already exists so that is remove it before we update the map with another location
+  const container = L.DomUtil.get("map");
   if (container != null) {
     container._leaflet_id = null;
   }
@@ -198,6 +211,7 @@ const getMap = (lat, lon) => {
   return map;
 };
 
+// The main function: it takes the city and time of day and displays the data and the map in the UI
 async function forcast(city = "algiers", timeOfDay = "morning") {
   const data = await geoCoding(city);
 
@@ -288,15 +302,18 @@ async function forcast(city = "algiers", timeOfDay = "morning") {
   getMap(lat, lon);
 }
 
+// Get and display the initial information on the webpage when it loads (Algiers as the default location)
 window.addEventListener("load", async function () {
   forcast("algiers");
 });
 
+// When a new location is chosen update the UI with that location
 submitBtn.addEventListener("click", async function (e) {
   e.preventDefault();
   forcast(inputValue.value);
 });
 
+// Update the UI when a new time of day is chosen, otherwise always display morning data
 select.addEventListener("change", async function (e) {
   selectValue = e.target.value === "select" ? "morning" : e.target.value;
   forcast(inputValue.value || "algiers", selectValue);
