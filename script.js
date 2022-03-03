@@ -75,7 +75,7 @@ const geoCoding = (cityName) => {
 
 // A function that takes the longitude and latitude and returns the city at that location
 const reverseGeoCoding = (lat, lon) => {
-  const geocodingUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=44eeb0863b7b878491c01518d820a7af`;
+  const geocodingUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=44eeb0863b7b878491c01518d820a7af`;
   return getData(geocodingUrl);
 };
 
