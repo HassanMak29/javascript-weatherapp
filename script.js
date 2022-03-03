@@ -1,6 +1,8 @@
 const date = document.querySelector(".header__info--date");
 const time = document.querySelector(".header__info--time");
 
+const main = document.querySelector(".main");
+
 const inputValue = document.querySelector(".form__input");
 const submitBtn = document.querySelector(".form__btn");
 const loc = document.querySelector(".weatherForcast__location");
@@ -216,8 +218,22 @@ const getMap = (lat, lon) => {
   return map;
 };
 
+const renderSpinner = (element) => {
+  const spinner = `
+    <div class="spinner">
+      <svg>
+        <use href="assets/loader-icon.svg#icon-loader"></use>
+      </svg>
+    </div>
+  `;
+  element.innerHTML = "";
+  element.insertAdjacentHTML("afterbegin", spinner);
+};
+
 // This function takes the city and time of day and displays the data and the map in the UI
 async function forcast(city = "algiers", timeOfDay = "morning") {
+  renderSpinner(weatherForcastToday);
+
   const data = await geoCoding(city);
 
   loc.innerHTML = `${data[0].name}, ${data[0].country}`;

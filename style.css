@@ -58,6 +58,29 @@ body {
 /* MAIN */
 .main {
   padding: 3rem;
+  min-height: 100vh;
+}
+
+/* Spinner */
+.spinner {
+  margin: 5rem auto;
+  text-align: center;
+}
+.spinner svg {
+  height: 6rem;
+  width: 6rem;
+  fill: rgb(51, 68, 145);
+  animation: rotate 2s infinite linear;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Search field */
@@ -311,6 +334,7 @@ body {
   .header {
     display: flex;
     flex-direction: column;
+    height: 10rem;
   }
 
   .form {
