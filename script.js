@@ -339,7 +339,6 @@ window.addEventListener("load", async function () {
     console.log(name);
     forcast(name);
   });
-  // forcast("algiers");
 });
 
 // When a new location is chosen update the UI with that location
@@ -359,5 +358,4 @@ select.addEventListener("change", async function (e) {
     console.log(name);
     forcast(inputValue.value || name, selectValue);
   });
-  // forcast(inputValue.value || "algiers", selectValue);
 });
