@@ -349,5 +349,11 @@ submitBtn.addEventListener("click", async function (e) {
 // Update the UI when a new time of day is chosen, otherwise always display morning data
 select.addEventListener("change", async function (e) {
   selectValue = e.target.value === "select" ? "morning" : e.target.value;
-  forcast(inputValue.value || "algiers", selectValue);
+  navigator.geolocation.getCurrentPosition(async function (position) {
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
+
+    const [{ name }] = await reverseGeoCoding(lat, lon);
+    forcast(inputValue.value || name, selectValue);
+  });
 });
