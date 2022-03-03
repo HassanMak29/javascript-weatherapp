@@ -73,6 +73,12 @@ const geoCoding = (cityName) => {
   return getData(geocodingUrl);
 };
 
+// A function that takes the longitude and latitude and returns the city at that location
+const reverseGeoCoding = (lat, lon) => {
+  const geocodingUrl = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=44eeb0863b7b878491c01518d820a7af`;
+  return getData(geocodingUrl);
+};
+
 // A function that takes the corrdinates of a city and returns the city's weather forcast for the next 5 days
 // at different times of the day
 const weatherFromLocation = (lat, lon) => {
@@ -325,7 +331,13 @@ async function forcast(city = "algiers", timeOfDay = "morning") {
 
 // Get and display the initial information on the webpage when it loads (Algiers as the default location)
 window.addEventListener("load", async function () {
-  forcast("algiers");
+  navigator.geolocation.getCurrentPosition(async function (position) {
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
+
+    const [{ name }] = await reverseGeoCoding(lat, lon);
+    forcast(name);
+  });
 });
 
 // When a new location is chosen update the UI with that location
