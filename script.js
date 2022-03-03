@@ -336,6 +336,7 @@ window.addEventListener("load", async function () {
     let lon = position.coords.longitude;
 
     const [{ name }] = await reverseGeoCoding(lat, lon);
+    console.log(name);
     forcast(name);
   });
   // forcast("algiers");
