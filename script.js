@@ -331,13 +331,14 @@ async function forcast(city = "algiers", timeOfDay = "morning") {
 
 // Get and display the user's location weather information on the webpage when it loads
 window.addEventListener("load", async function () {
-  navigator.geolocation.getCurrentPosition(async function (position) {
-    let lat = position.coords.latitude;
-    let lon = position.coords.longitude;
+  // navigator.geolocation.getCurrentPosition(async function (position) {
+  //   let lat = position.coords.latitude;
+  //   let lon = position.coords.longitude;
 
-    const [{ name }] = await reverseGeoCoding(lat, lon);
-    forcast(name);
-  });
+  //   const [{ name }] = await reverseGeoCoding(lat, lon);
+  //   forcast(name);
+  // });
+  forcast("algiers");
 });
 
 // When a new location is chosen update the UI with that location
@@ -349,11 +350,12 @@ submitBtn.addEventListener("click", async function (e) {
 // Update the UI when a new time of day is chosen, otherwise always display morning data
 select.addEventListener("change", async function (e) {
   selectValue = e.target.value === "select" ? "morning" : e.target.value;
-  navigator.geolocation.getCurrentPosition(async function (position) {
-    let lat = position.coords.latitude;
-    let lon = position.coords.longitude;
+  // navigator.geolocation.getCurrentPosition(async function (position) {
+  //   let lat = position.coords.latitude;
+  //   let lon = position.coords.longitude;
 
-    const [{ name }] = await reverseGeoCoding(lat, lon);
-    forcast(inputValue.value || name, selectValue);
-  });
+  //   const [{ name }] = await reverseGeoCoding(lat, lon);
+  //   forcast(inputValue.value || name, selectValue);
+  // });
+  forcast(inputValue.value || "algiers", selectValue);
 });
