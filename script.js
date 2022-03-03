@@ -329,7 +329,7 @@ async function forcast(city = "algiers", timeOfDay = "morning") {
   getMap(lat, lon);
 }
 
-// Get and display the initial information on the webpage when it loads (Algiers as the default location)
+// Get and display the user's location weather information on the webpage when it loads
 window.addEventListener("load", async function () {
   navigator.geolocation.getCurrentPosition(async function (position) {
     let lat = position.coords.latitude;
