@@ -355,6 +355,7 @@ select.addEventListener("change", async function (e) {
     let lon = position.coords.longitude;
 
     const [{ name }] = await reverseGeoCoding(lat, lon);
+    console.log(name);
     forcast(inputValue.value || name, selectValue);
   });
   // forcast(inputValue.value || "algiers", selectValue);
