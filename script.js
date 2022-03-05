@@ -329,16 +329,35 @@ async function forcast(city = "algiers", timeOfDay = "morning") {
   getMap(lat, lon);
 }
 
-// Get and display the user's location weather information on the webpage when it loads
-window.addEventListener("load", async function () {
+// A function that takes the display function as an argument and displays weather info based on browser localization API.
+const displayBasedOnPosition = (fn) => {
   navigator.geolocation.getCurrentPosition(async function (position) {
     let lat = position.coords.latitude;
     let lon = position.coords.longitude;
 
     const [{ name }] = await reverseGeoCoding(lat, lon);
-    console.log(name);
-    forcast(name);
+    fn(name);
   });
+};
+
+// A function that takes a display function, a place and a time of day and displays weather info,
+// if place is not provided it uses the user's location from the browser geolocation API.
+const displayBasedOnTime = (fn, place, time) => {
+  navigator.geolocation.getCurrentPosition(async function (position) {
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
+
+    const [{ name }] = await reverseGeoCoding(lat, lon);
+    fn(place || name, time);
+  });
+};
+
+// Get and display the user's location weather information on the webpage when it loads
+// if the user chooses not to allow browser localization, then display Algiers' weather.
+window.addEventListener("load", async function () {
+  displayBasedOnPosition(forcast)
+    ? displayBasedOnPosition(forcast)
+    : forcast("algiers");
 });
 
 // When a new location is chosen update the UI with that location
@@ -350,12 +369,5 @@ submitBtn.addEventListener("click", async function (e) {
 // Update the UI when a new time of day is chosen, otherwise always display morning data
 select.addEventListener("change", async function (e) {
   selectValue = e.target.value === "select" ? "morning" : e.target.value;
-  navigator.geolocation.getCurrentPosition(async function (position) {
-    let lat = position.coords.latitude;
-    let lon = position.coords.longitude;
-
-    const [{ name }] = await reverseGeoCoding(lat, lon);
-    console.log(name);
-    forcast(inputValue.value || name, selectValue);
-  });
+  displayBasedOnTime(forcast, inputValue.value, selectValue);
 });
