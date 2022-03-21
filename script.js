@@ -267,7 +267,7 @@ async function forcast(city = "algiers", timeOfDay = "morning") {
             <img class="weatherForcast__today--icon" src="/assets/${getIcon(
               todaysWeather.weather[0].main,
               todaysWeather.weather[0].description,
-              "day"
+              dayTime
             )}@2x.png" alt="weather icon" />
             <div class="weatherForcast__today--infoContainer">
                 <div class="weatherForcast__today--temp">
@@ -297,26 +297,26 @@ async function forcast(city = "algiers", timeOfDay = "morning") {
       const humidity = dayWeather.main.humidity;
 
       const card = `
-    <article class="weatherCard">
-          <p class="weatherCard__day">${
-            weekDay === today
-              ? "Today"
-              : weekDay === tomorrow
-              ? "Tomorrow"
-              : weekDay
-          }</p>
-          <div class="weatherCard__desc">${desc}</div>
-          <img class="weatherCard__icon" src="/assets/${getIcon(
-            main,
-            desc,
-            dayTime
-          )}@2x.png" alt="weather icon" />
-          <div class="weatherCard__temp">
-          ${temp}<sup>°C</sup>
-          </div>
-          <div class="weatherCard__wind">humidity: <span>${humidity}%</span></div>
-          <div class="weatherCard__wind">wind speed: <span>${windSpeed} km/h</span></div>
-    </article>
+            <article class="weatherCard">
+                  <p class="weatherCard__day">${
+                    weekDay === today
+                      ? "Today"
+                      : weekDay === tomorrow
+                      ? "Tomorrow"
+                      : weekDay
+                  }</p>
+                  <div class="weatherCard__desc">${desc}</div>
+                  <img class="weatherCard__icon" src="/assets/${getIcon(
+                    main,
+                    desc,
+                    dayTime
+                  )}@2x.png" alt="weather icon" />
+                  <div class="weatherCard__temp">
+                  ${temp}<sup>°C</sup>
+                  </div>
+                  <div class="weatherCard__wind">humidity: <span>${humidity}%</span></div>
+                  <div class="weatherCard__wind">wind speed: <span>${windSpeed} km/h</span></div>
+            </article>
   `;
       return card;
     })
@@ -363,11 +363,15 @@ window.addEventListener("load", async function () {
 // When a new location is chosen update the UI with that location
 submitBtn.addEventListener("click", async function (e) {
   e.preventDefault();
-  forcast(inputValue.value);
+  const input =
+    inputValue.value.trim().length > 0 ? inputValue.value.trim() : "algiers";
+  forcast(input);
 });
 
 // Update the UI when a new time of day is chosen, otherwise always display morning data
 select.addEventListener("change", async function (e) {
   selectValue = e.target.value === "select" ? "morning" : e.target.value;
-  displayBasedOnTime(forcast, inputValue.value, selectValue);
+  const input =
+    inputValue.value.trim().length > 0 ? inputValue.value.trim() : "algiers";
+  displayBasedOnTime(forcast, input, selectValue);
 });
